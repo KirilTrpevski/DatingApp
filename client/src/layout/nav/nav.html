@@ -24,11 +24,45 @@
       <a>Messages</a>
     </nav>
     <div class="flex align-middle ml-auto gap-3">
-      <form class="flex items-center gap-3">
-        <input type="text" class="input" placeholder="Email" />
-        <input type="password" class="input" placeholder="Password" />
-        <button class="btn">Login</button>
-      </form>
+      @if (accountService.currentUser(); as user) {
+        <div class="dropdown">
+          <div
+            class="flex items-center text-white text-xl gap-3 cursor-pointer"
+          >
+            <img
+              tabindex="0"
+              src="/user.png"
+              alt="user avatar"
+              class="size-8 rounded-full cursor-pointer"
+            />
+            <span class="text-white">{{ user?.displayName }} </span>
+          </div>
+
+          <ul
+            tabindex="-1"
+            class="dropdown-content dropdown-end menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
+          >
+            <li><a>Settings</a></li>
+            <li (click)="logout()"><a>Logout</a></li>
+          </ul>
+        </div>
+      } @else {
+        <form class="flex items-center gap-3" (submit)="submitLogin($event)">
+          <input
+            type="text"
+            class="input"
+            placeholder="Username"
+            [formField]="loginForm.email"
+          />
+          <input
+            type="password"
+            class="input"
+            placeholder="Password"
+            [formField]="loginForm.password"
+          />
+          <button class="btn" type="submit">Login</button>
+        </form>
+      }
     </div>
   </div>
 </header>
